@@ -1,0 +1,13 @@
+---
+# Vivo development
+- hosts: tulvivo
+  become: yes
+  vars:
+    app_user : 'tulvivo'
+  tasks:
+    - user: name={{app_user}} state=present
+      become: yes
+    - include: tasks/devtools.yml
+    - include: tasks/java.yml
+    - include: tasks/mysql.yml
+    - include: tasks/ant.yml
