@@ -1,9 +1,9 @@
 ---
-# Vivo development
-- hosts: tulvivo
+# Complete Vivo server
+- hosts: all
   become: yes
-  vars:
-    app_user : 'tulvivo'
+  vars_files:
+    - vars/main.yml
   tasks:
     - user: name={{app_user}} state=present
       become: yes
@@ -11,3 +11,4 @@
     - include: tasks/java.yml
     - include: tasks/mysql.yml
     - include: tasks/ant.yml
+    - include: tasks/apache2.yml

@@ -23,13 +23,13 @@ Vagrant.configure(2) do |config|
     v.customize ["modifyvm", :id, "--memory", mem]
   end
 
-  #config.vm.hostname = "tulvivo"
+  config.vm.hostname = "tulvivo"
   config.vm.network "forwarded_port", guest: 80, host: 8180, auto_correct: true
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
     ansible.host_key_checking = false
-    ansible.inventory_path = "inventory/vagrant/"
+    #ansible.inventory_path = "inventory/vagrant/"
     ansible.limit = "all"
     ansible.verbose =  'vvvv'
   end

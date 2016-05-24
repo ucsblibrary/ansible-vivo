@@ -1,0 +1,7 @@
+# Install Apache 2
+- name: Install Apache2
+  yum: pkg=httpd state=latest
+- name: Enable virtual host
+  replace: dest=/etc/httpd/conf/httpd.conf regexp="^#NameVirtualHost \*:80" replace="NameVirtualHost *:80"
+- name: Startup Apache2
+  service: name=httpd state=started
