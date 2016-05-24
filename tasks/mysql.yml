@@ -1,2 +1,0 @@
-- name: Install MySQL
-  yum: pkg=mariadb state=latest

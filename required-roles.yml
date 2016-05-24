@@ -1,0 +1,5 @@
+---
+- src: geerlingguy.mysql
+  path: external_roles/
+- src: williamyeh.oracle-java
+  path: external_roles/
