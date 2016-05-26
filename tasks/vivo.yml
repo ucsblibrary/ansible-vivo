@@ -1,0 +1,16 @@
+---
+
+- name: checkout the vivo app code from source control
+  unarchive: src=files/vivo-rel-1.8.1.zip dest=/opt 
+- name: Create Vivo build properties
+  command: cp /opt/vivo-rel-1.8.1/example.build.properties /opt/vivo-rel-1.8.1/build.properties
+- name: Configure Vivo build properties
+  lineinfile: dest=/opt/vivo-rel-1.8.1/build.properties regexp="^tomcat.home = /usr/local/tomcat" line="tomcat.home = /usr/share/tomcat"
+- name: Build Vivo
+  command: ant all
+  args:
+    chdir: /opt/vivo-rel-1.8.1
+- command: cp /usr/local/vivo/home/example.runtime.properties /usr/local/vivo/home/runtime.properties
+- command: cp /usr/local/vivo/home/config/example.applicationSetup.n3 /usr/local/vivo/home/config/applicationSetup.n3
+- command: cp /usr/local/vivo/home/config/example.developer.properties /usr/local/vivo/home/config/developer.properties
+- command: tomcat stop && sleep 10 && tomcat start
