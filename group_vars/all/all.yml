@@ -1,1 +1,20 @@
+---
 app_user: 'tul_vivo'
+mysql_packages:
+  - mariadb
+  - mariadb-server
+  - mariadb-libs
+  - MySQL-python
+  - perl-DBD-MySQL
+mysql_daemon: mariadb
+mysql_log_error: /var/log/mariadb/mariadb.log
+mysql_syslog_tag: mariadb
+mysql_pid_file: /var/run/mariadb/mariadb.pid
+mysql_databases:
+  - name: tuvivo_db
+    encoding: utf8
+mysql_users:
+  - name: tuvivo
+    host: "%"
+    password: vivopa55
+    priv: "tuvivo_db.*:ALL"

@@ -3,14 +3,20 @@
 - hosts: all
   become: yes
   vars_files:
-    - vars/main.yml
-    - vars/secrets.yml
+    - group_vars/all/all.yml
+    - group_vars/all/secrets.yml
+  environment:
+    - CATALINA_BASE: "/usr/share/tomcat"
+    - NAME: "tomcat"
   roles:
+    - geerlingguy.apache
     - geerlingguy.mysql
     - williamyeh.oracle-java
+    - bertvv.tomcat
   tasks:
     - user: name={{app_user}} state=present
       become: yes
     - include: tasks/devtools.yml
     - include: tasks/ant.yml
     - include: tasks/apache2.yml
+    - include: tasks/vivo.yml
