@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.hostname = "tulvivo"
-  config.vm.network "forwarded_port", guest: 80, host: 8180, auto_correct: true
+  config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
