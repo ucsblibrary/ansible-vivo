@@ -26,6 +26,11 @@ Vagrant.configure(2) do |config|
   config.vm.hostname = "tulvivo"
   config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
+  # Cache installing items. Reference: http://fgrehm.viewdocs.io/vagrant-cachier/
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
     ansible.host_key_checking = false

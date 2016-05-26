@@ -1,16 +1,20 @@
 ---
 
 - name: checkout the vivo app code from source control
-  unarchive: src=files/vivo-rel-1.8.1.zip dest=/opt 
+  #unarchive: src=https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip dest=/opt  copy=no
+  unarchive: src=files/vivo-{{ vivo_version }}.zip dest=/opt copy=yes
 - name: Create Vivo build properties
-  command: cp /opt/vivo-rel-1.8.1/example.build.properties /opt/vivo-rel-1.8.1/build.properties
+  command: cp '{{ vivo_build_path}}/example.build.properties' '{{ vivo_build_path }}/build.properties'
 - name: Configure Vivo build properties
-  lineinfile: dest=/opt/vivo-rel-1.8.1/build.properties regexp="^tomcat.home = /usr/local/tomcat" line="tomcat.home = /usr/share/tomcat"
+  lineinfile: dest='/opt/vivo-{{ vivo_version }}/build.properties' regexp='tomcat.home = /usr/local/tomcat' line='tomcat.home = {{ tomcat_home_path }}'
 - name: Build Vivo
   command: ant all
   args:
-    chdir: /opt/vivo-rel-1.8.1
+    chdir: /opt/vivo-{{ vivo_version }}
 - command: cp /usr/local/vivo/home/example.runtime.properties /usr/local/vivo/home/runtime.properties
+- replace: dest=/usr/local/vivo/home/runtime.properties regexp='vitrodbUsername' replace={{ db_username }}
+- replace: dest=/usr/local/vivo/home/runtime.properties regexp='vitrodbPassword' replace={{ db_password }}
+- replace: dest=/usr/local/vivo/home/runtime.properties regexp='vivo.mydomain.edu' replace={{ vivo_domain }}
 - command: cp /usr/local/vivo/home/config/example.applicationSetup.n3 /usr/local/vivo/home/config/applicationSetup.n3
 - command: cp /usr/local/vivo/home/config/example.developer.properties /usr/local/vivo/home/config/developer.properties
-- command: tomcat stop && sleep 10 && tomcat start
+- command: tomcat start

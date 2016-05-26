@@ -13,8 +13,19 @@ mysql_pid_file: /var/run/mariadb/mariadb.pid
 mysql_databases:
   - name: tuvivo_db
     encoding: utf8
+  - name: vitrodb
+    encoding: utf8
 mysql_users:
   - name: tuvivo
     host: "%"
     password: vivopa55
     priv: "tuvivo_db.*:ALL"
+  - name: tuvivo
+    host: "%"
+    password: vivopa55
+    priv: "vitrodb.*:ALL"
+vivo_version: rel-1.8.1
+vivo_build_path: "/opt/vivo-{{ vivo_version }}"
+vivo_home_path: /usr/local/vivo/home
+vivo_domain: 'vivo.temple.edu'
+tomcat_home_path: /usr/share/tomcat
