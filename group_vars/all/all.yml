@@ -11,19 +11,19 @@ mysql_log_error: /var/log/mariadb/mariadb.log
 mysql_syslog_tag: mariadb
 mysql_pid_file: /var/run/mariadb/mariadb.pid
 mysql_databases:
-  - name: tuvivo_db
+  - name: "{{ db_name }}"
     encoding: utf8
-  - name: vitrodb
+  - name: "{{ vitro_db_name }}"
     encoding: utf8
 mysql_users:
-  - name: tuvivo
+  - name: "tulvivo"
     host: "%"
-    password: vivopa55
-    priv: "tuvivo_db.*:ALL"
-  - name: tuvivo
+    password: "mysqlpa55"
+    priv: "{{ db_name }}.*:ALL"
+  - name: "tulvivo"
     host: "%"
-    password: vivopa55
-    priv: "vitrodb.*:ALL"
+    password: "mysqlpa55"
+    priv: "{{ vitro_db_name }}.*:ALL"
 vivo_version: rel-1.8.1
 vivo_build_path: "/opt/vivo-{{ vivo_version }}"
 vivo_home_path: /usr/local/vivo/home

@@ -17,4 +17,9 @@
 - replace: dest=/usr/local/vivo/home/runtime.properties regexp='vivo.mydomain.edu' replace={{ vivo_domain }}
 - command: cp /usr/local/vivo/home/config/example.applicationSetup.n3 /usr/local/vivo/home/config/applicationSetup.n3
 - command: cp /usr/local/vivo/home/config/example.developer.properties /usr/local/vivo/home/config/developer.properties
+- name: Make home directory accessible
+  command: "chmod -R a+w ."
+  args:
+    chdir: "/usr/local/vivo"
 - command: tomcat start
+
