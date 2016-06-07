@@ -1,25 +1,63 @@
 ---
 
+    #src: https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip
+    #copy: no
 - name: checkout the vivo app code from source control
-  #unarchive: src=https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip dest=/opt  copy=no
-  unarchive: src=files/vivo-{{ vivo_version }}.zip dest=/opt copy=yes
+  unarchive:
+    src: files/vivo-{{ vivo_version }}.zip
+    dest: /opt
+    copy: yes
+    owner: tomcat
+    group: tomcat
 - name: Create Vivo build properties
-  command: cp '{{ vivo_build_path}}/example.build.properties' '{{ vivo_build_path }}/build.properties'
+  command: cp "example.build.properties" "build.properties"
+  args:
+      chdir: "{{ vivo_build_path }}"
+  become_user: tomcat
 - name: Configure Vivo build properties
-  lineinfile: dest='/opt/vivo-{{ vivo_version }}/build.properties' regexp='tomcat.home = /usr/local/tomcat' line='tomcat.home = {{ tomcat_home_path }}'
+  lineinfile:
+    dest: "/opt/vivo-{{ vivo_version }}/build.properties"
+    regexp: "tomcat.home = /usr/local/tomcat"
+    line: "tomcat.home = {{ tomcat_home_path }}"
 - name: Build Vivo
   command: ant all
   args:
-    chdir: /opt/vivo-{{ vivo_version }}
-- command: cp /usr/local/vivo/home/example.runtime.properties /usr/local/vivo/home/runtime.properties
-- replace: dest=/usr/local/vivo/home/runtime.properties regexp='vitrodbUsername' replace={{ db_username }}
-- replace: dest=/usr/local/vivo/home/runtime.properties regexp='vitrodbPassword' replace={{ db_password }}
-- replace: dest=/usr/local/vivo/home/runtime.properties regexp='vivo.mydomain.edu' replace={{ vivo_domain }}
-- command: cp /usr/local/vivo/home/config/example.applicationSetup.n3 /usr/local/vivo/home/config/applicationSetup.n3
-- command: cp /usr/local/vivo/home/config/example.developer.properties /usr/local/vivo/home/config/developer.properties
-- name: Make home directory accessible
-  command: "chmod -R a+w ."
+    chdir: "/opt/vivo-{{ vivo_version }}"
+- name: Change Vivo Owner and Group
+  file:
+    path: "{{ vivo_home_path }}"
+    recurse: yes
+    owner: tomcat
+    group: tomcat
+- command: cp example.runtime.properties runtime.properties
   args:
-    chdir: "/usr/local/vivo"
-- command: tomcat start
+    chdir: "{{ vivo_home_path }}"
+  become_user: tomcat
+- name: Customize Vigro DB Username
+  replace:
+    dest: "{{ vivo_home_path }}/runtime.properties"
+    regexp: "vitrodbUsername"
+    replace: "{{ vitro_db_username }}"
+- name: Set Vitro DB Password
+  replace:
+    dest: "{{ vivo_home_path }}/runtime.properties"
+    regexp: "vitrodbPassword"
+    replace: "{{ vitro_db_password }}"
+- name: Set Vigro Domain Name
+  replace:
+    dest: "{{ vivo_home_path }}/runtime.properties"
+    regexp: "vivo.mydomain.edu"
+    replace: "{{ vivo_domain }}"
+- name: Create application setup file
+  command: cp config/example.applicationSetup.n3 config/applicationSetup.n3
+  args:
+      chdir: "{{ vivo_home_path }}"
+  become_user: tomcat
+- name: Create developer properties file
+  command: cp config/example.developer.properties config/developer.properties
+  args:
+      chdir: "{{ vivo_home_path }}"
+  become_user: tomcat
+- name: Start up Tomcat
+  command: tomcat start
 

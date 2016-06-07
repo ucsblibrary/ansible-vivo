@@ -1,18 +1,34 @@
 ---
 # Complete Vivo server
+
 - hosts: all
   become: yes
-  vars_files:
-    - group_vars/all/all.yml
-    - group_vars/all/secrets.yml
+  roles:
+    - geerlingguy.mysql
+
+- hosts: all
+  become: yes
+  roles:
+    - geerlingguy.apache
+
+- hosts: all
+  become: yes
+  roles:
+    - williamyeh.oracle-java
+
+- hosts: all
+  become: yes
   environment:
     - CATALINA_BASE: "/usr/share/tomcat"
     - NAME: "tomcat"
   roles:
-    - geerlingguy.apache
-    - geerlingguy.mysql
-    - williamyeh.oracle-java
     - bertvv.tomcat
+
+- hosts: all
+  become: yes
+  environment:
+    - CATALINA_BASE: "/usr/share/tomcat"
+    - NAME: "tomcat"
   tasks:
     - user: name={{app_user}} state=present
       become: yes
