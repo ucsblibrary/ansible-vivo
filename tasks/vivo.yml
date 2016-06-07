@@ -2,27 +2,33 @@
 
     #src: https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip
     #copy: no
+- name: Notify user
+  slack:
+    token: T0QBGRQ72/B1EEMS1QF/w89IMsBuijpKQ0GaDDYSGko6
+    msg: "Starting Vivo task"
 - name: checkout the vivo app code from source control
   unarchive:
     src: files/vivo-{{ vivo_version }}.zip
     dest: /opt
     copy: yes
-    owner: tomcat
-    group: tomcat
+    #owner: tomcat
+    #group: tomcat
 - name: Create Vivo build properties
   command: cp "example.build.properties" "build.properties"
   args:
       chdir: "{{ vivo_build_path }}"
-  become_user: tomcat
+  #become_user: tomcat
 - name: Configure Vivo build properties
   lineinfile:
     dest: "/opt/vivo-{{ vivo_version }}/build.properties"
     regexp: "tomcat.home = /usr/local/tomcat"
     line: "tomcat.home = {{ tomcat_home_path }}"
+  #become_user: tomcat
 - name: Build Vivo
   command: ant all
   args:
     chdir: "/opt/vivo-{{ vivo_version }}"
+  #become_user: tomcat
 - name: Change Vivo Owner and Group
   file:
     path: "{{ vivo_home_path }}"
@@ -65,4 +71,7 @@
   become_user: tomcat
 - name: Start up Tomcat
   command: tomcat start
-
+- name: Notify user of completion
+  slack:
+    token: T0QBGRQ72/B1EEMS1QF/w89IMsBuijpKQ0GaDDYSGko6
+    msg: "Vivo task complete"
