@@ -33,6 +33,11 @@
   args:
     chdir: "{{ vivo_home_path }}"
   become_user: tomcat
+- name: Set SMTP Server
+  replace:
+    dest: "{{ vivo_home_path }}/runtime.properties"
+    regexp: "smtp.mydomain.edu"
+    replace: "{{ smtp_server }}"
 - name: Customize Vigro DB Username
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
@@ -46,7 +51,7 @@
 - name: Set Vigro Domain Name
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
-    regexp: "vivo.mydomain.edu"
+    regexp: "mydomain.edu"
     replace: "{{ vivo_domain }}"
 - name: Create application setup file
   command: cp config/example.applicationSetup.n3 config/applicationSetup.n3

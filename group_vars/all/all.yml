@@ -27,5 +27,6 @@ mysql_users:
 vivo_version: rel-1.8.1
 vivo_build_path: "/opt/vivo-{{ vivo_version }}"
 vivo_home_path: /usr/local/vivo/home
-vivo_domain: 'vivo.temple.edu'
+vivo_domain: 'temple.edu'
 tomcat_home_path: /usr/share/tomcat
+smtp_server: 'smtp.gmail.com'
