@@ -1,9 +1,5 @@
 ---
 
-- name: Notify user
-  slack:
-    token: T0QBGRQ72/B1EEMS1QF/w89IMsBuijpKQ0GaDDYSGko6
-    msg: "Starting Vivo task"
 - name: Get vivo app
   copy:
     src: "files/vivo-{{ vivo_version }}.zip"
@@ -77,7 +73,3 @@
   become_user: tomcat
 - name: Start up Tomcat
   command: tomcat start
-- name: Notify user of completion
-  slack:
-    token: T0QBGRQ72/B1EEMS1QF/w89IMsBuijpKQ0GaDDYSGko6
-    msg: "Vivo task complete"
