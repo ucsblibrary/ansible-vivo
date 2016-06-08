@@ -1,8 +1,17 @@
 ---
 
-- name: Get vivo app
+- name: prep vivo download
+  local_action: command mkdir downloads/{{ vivo_version }}
+  become: no
+- name: download vivo
+  local_action:
+    module: get_url
+    url: https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip
+    dest: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
+  become: no
+- name: get vivo app
   copy:
-    src: "files/vivo-{{ vivo_version }}.zip"
+    src: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
     dest: /opt
 # 
 # [NOTE:] Encountered problem with `unarchive`. It fails
