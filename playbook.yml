@@ -16,15 +16,6 @@
   roles:
     - williamyeh.oracle-java
 
-- name: Download the vivo src locally for resuse
-  hosts: 127.0.0.1
-  connection: local
-  tasks:
-  - name: download vivo source to the local download directory
-    get_url:
-      url: https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip
-      dest: downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip
-
 - hosts: all
   become: yes
   environment:

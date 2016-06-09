@@ -24,5 +24,7 @@ Start the Vagrant server
 
 Once the server is up and running open your browser to [http://localhost:8080/vivo](http://localhost:8080.vivo)
 
-Login with username: `vivo_root@temple.edu`
-and password: `rootPassword`
+Login with username and password below, substitute mydomain with the domain defined by vivo_domain
+
+Username: `vivo_root@mydomain.edu`
+Password: `rootPassword`
