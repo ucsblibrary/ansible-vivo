@@ -23,7 +23,7 @@
 #
 #- name: checkout the vivo app code from source control
 #  unarchive:
-#    src: /opt/vivo-{{ vivo_version }}.zip
+#    src: "/opt/vivo-{{ vivo_version }}.zip"
 #    dest: /opt
 #    copy: no
 - name: unzip the vivo archive
@@ -31,9 +31,10 @@
   args:
       chdir: "/opt"
 - name: Create Vivo build properties
-  command: cp "example.build.properties" "build.properties"
-  args:
-      chdir: "{{ vivo_build_path }}"
+  copy:
+    src: "{{ vivo_build_path }}/example.build.properties"
+    dest: "{{ vivo_build_path }}/build.properties"
+    remote_src: true
 - name: Configure Vivo build properties
   lineinfile:
     dest: "/opt/vivo-{{ vivo_version }}/build.properties"
@@ -49,9 +50,11 @@
     recurse: yes
     owner: tomcat
     group: tomcat
-- command: cp example.runtime.properties runtime.properties
-  args:
-    chdir: "{{ vivo_home_path }}"
+- name: Create Vivo runtime properties
+  copy:
+    src: "{{ vivo_home_path }}/example.runtime.properties"
+    dest: "{{ vivo_home_path }}/runtime.properties"
+    remote_src: true
   become_user: tomcat
 - name: Set SMTP Server
   replace:
@@ -74,14 +77,16 @@
     regexp: "mydomain.edu"
     replace: "{{ vivo_domain }}"
 - name: Create application setup file
-  command: cp config/example.applicationSetup.n3 config/applicationSetup.n3
-  args:
-      chdir: "{{ vivo_home_path }}"
+  copy:
+    src: "{{ vivo_home_path }}/config/example.applicationSetup.n3"
+    dest: "{{ vivo_home_path }}/config/applicationSetup.n3"
+    remote_src: true
   become_user: tomcat
 - name: Create developer properties file
-  command: cp config/example.developer.properties config/developer.properties
-  args:
-      chdir: "{{ vivo_home_path }}"
+  copy:
+    src: "{{ vivo_home_path }}/config/example.developer.properties"
+    dest: "{{ vivo_home_path }}/config/developer.properties"
+    remote_src: true
   become_user: tomcat
 - name: Start up Tomcat
   command: tomcat start
