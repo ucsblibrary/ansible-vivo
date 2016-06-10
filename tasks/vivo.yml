@@ -1,7 +1,10 @@
 ---
 
 - name: prep vivo download
-  local_action: command mkdir downloads/{{ vivo_version }}
+  local_action:
+    module: file
+    path: downloads/{{ vivo_version }}
+    state: directory
   become: no
 - name: download vivo
   local_action:
@@ -13,7 +16,7 @@
   copy:
     src: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
     dest: /opt
-# 
+#
 # [NOTE:] Encountered problem with `unarchive`. It fails
 # extracting certain doc files. Workaround `command: unzip`
 # instead. Return to using `unarchive` when problem resolved.
