@@ -43,11 +43,17 @@ Modify inventory/dev/hosts file as appropriate:
 
 Run the ansible playbook to deploy the new site.
 
-    ansible-playbook -i inventory/dev/hosts playbook.yml --vault-password-file=~/.vault --ask-sudo-pass
+    ansible-playbook --limit='all' -i inventory/dev -vvvv --vault-password-file=~/.vault playbook.yml
+
+## Begin Using Vivo
 
 Once the server is up and running open your browser to http://vivo_domain.edu:8080/vivo
 
-Login with username and password below, substitute mydomain with the domain defined by vivo_domain
+Login with username and password below, substitute mydomain with the domain defined by vivo_domain:
 
 Username: `vivo_root@mydomain.edu`
-Pansible-playbook -i inventory/dev/hosts playbook.yml --vault-password-file=~/.vault --ask-sudo-password: `rootPassword`
+Password: `rootPassword`
+
+And change the adminsitration password that a secure password.
+
+
