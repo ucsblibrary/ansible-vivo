@@ -15,13 +15,6 @@ Start the Vagrant server
 
     vagrant up
 
-Once the server is up and running open your browser to [http://localhost:8080/vivo](http://localhost:8080.vivo)
-
-Login with username and password below, substitute mydomain with the domain defined by vivo_domain
-
-Username: `vivo_root@mydomain.edu`
-Password: `rootPassword`
-
 ## Target Server
 
 If not already done, install external roles
@@ -43,11 +36,12 @@ Modify inventory/dev/hosts file as appropriate:
 
 Run the ansible playbook to deploy the new site.
 
-    ansible-playbook --limit='all' -i inventory/dev -vvvv --vault-password-file=~/.vault playbook.yml
+    ansible-playbook -i inventory/dev playbook.yml
 
 ## Begin Using Vivo
 
 Once the server is up and running open your browser to http://vivo_domain.edu:8080/vivo
+(or http://localhost:8080/vivo for Vagrant).
 
 Login with username and password below, substitute mydomain with the domain defined by vivo_domain:
 
