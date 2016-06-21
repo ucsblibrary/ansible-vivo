@@ -1,0 +1,12 @@
+---
+
+- name: redhat subscription
+  redhat_subscription:
+    state: present
+    username: "{{rhel_username}}"
+    password: "{{rhel_password}}"
+    autosubscribe: true
+  become: yes
+- name: install epel
+  yum: name=http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm state=present
+  become: yes

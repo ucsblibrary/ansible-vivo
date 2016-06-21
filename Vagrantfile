@@ -1,5 +1,6 @@
 Vagrant.configure(2) do |config|
-  config.vm.box = "geerlingguy/centos7"
+  config.vm.box = "thussain/rhel7"
+  config.ssh.pty = true
 
   #Dynamically set the memory to 2GB or 1/4 of the machine memory
   config.vm.provider "virtualbox" do |v|

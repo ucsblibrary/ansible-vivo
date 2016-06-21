@@ -3,6 +3,13 @@
 
 - hosts: all
   become: yes
+  tasks:
+    - user: name={{app_user}} state=present
+      become: yes
+    - include: tasks/rhel7.yml
+
+- hosts: all
+  become: yes
   roles:
     - geerlingguy.mysql
 
