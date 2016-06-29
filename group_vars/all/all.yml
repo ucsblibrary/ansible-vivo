@@ -10,23 +10,19 @@ mysql_daemon: mariadb
 mysql_log_error: /var/log/mariadb/mariadb.log
 mysql_syslog_tag: mariadb
 mysql_pid_file: /var/run/mariadb/mariadb.pid
+mysql_root_password: "{{ db_root_password }}"
 mysql_databases:
   - name: "{{ vivo_db_name }}"
-    encoding: utf8
-  - name: "{{ vitro_db_name }}"
     encoding: utf8
 mysql_users:
   - name: "{{ vivo_db_username }}"
     host: "%"
     password: "{{ vivo_db_password }}"
     priv: "{{ vivo_db_name }}.*:ALL"
-  - name: "{{ vitro_db_username }}"
-    host: "%"
-    password: "{{ vitro_db_password }}"
-    priv: "{{ vitro_db_name }}.*:ALL"
 vivo_version: rel-1.8.1
 vivo_build_path: "/opt/vivo-{{ vivo_version }}"
 vivo_home_path: /usr/local/vivo/home
 vivo_domain: 'temple.edu'
+vivo_admin: 'vivoAdmin@temple.edu'
 tomcat_home_path: /usr/share/tomcat
 smtp_server: 'smtp.gmail.com'
