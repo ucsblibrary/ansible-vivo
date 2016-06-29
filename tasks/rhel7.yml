@@ -1,6 +1,9 @@
 ---
 
-- name: redhat subscription
+- name: unregister previous redhat subscription 
+  redhat_subscription:
+    state: absent
+- name: register redhat subscription
   redhat_subscription:
     state: present
     username: "{{rhel_username}}"
