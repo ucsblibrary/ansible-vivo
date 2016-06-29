@@ -61,17 +61,22 @@
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "smtp.mydomain.edu"
     replace: "{{ smtp_server }}"
-- name: Customize Vigro DB Username
+- name: Customize Vivo DB Username
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "vitrodbUsername"
-    replace: "{{ vitro_db_username }}"
+    replace: "{{ vivo_db_username }}"
 - name: Set Vitro DB Password
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "vitrodbPassword"
-    replace: "{{ vitro_db_password }}"
-- name: Set Vigro Domain Name
+    replace: "{{ vivo_db_password }}"
+- name: Set Vitro Admin user
+  replace:
+    dest: "{{ vivo_home_path }}/runtime.properties"
+    regexp: "vivo_root@mydomain.edu"
+    replace: "{{ vivo_admin }}"
+- name: Set Vivo Domain Name
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "mydomain.edu"

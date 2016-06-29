@@ -1,4 +1,5 @@
 # ansible_vivo
+
 Ansible playbooks for Vivo
 
 ## Vagrant Server
@@ -43,11 +44,12 @@ Run the ansible playbook to deploy the new site.
 Once the server is up and running open your browser to http://vivo_domain.edu:8080/vivo
 (or http://localhost:8080/vivo for Vagrant).
 
-Login with username and password below, substitute mydomain with the domain defined by vivo_domain:
+Login with username and password below, substitute vivo_root@mydomain.edu with the email
+address defined by vivo_admin:
 
 Username: `vivo_root@mydomain.edu`
 Password: `rootPassword`
 
-And change the adminsitration password that a secure password.
+And change the administration password that a secure password.
 
 
