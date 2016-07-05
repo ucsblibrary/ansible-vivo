@@ -36,7 +36,6 @@ Vagrant.configure(2) do |config|
     ansible.host_key_checking = false
     ansible.inventory_path = "inventory/vagrant/"
     ansible.limit = "all"
-    ansible.verbose =  'vvvv'
     ansible.raw_arguments = ["--vault-password-file=~/.vault"]
   end
 end

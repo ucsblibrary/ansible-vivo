@@ -6,92 +6,110 @@
     path: downloads/{{ vivo_version }}
     state: directory
   become: no
+
 - name: download vivo
   local_action:
     module: get_url
     url: https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip
     dest: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
   become: no
+
 - name: get vivo app
   copy:
     src: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
     dest: /opt
+
 #
 # [NOTE:] Encountered problem with `unarchive`. It fails
 # extracting certain doc files. Workaround `command: unzip`
 # instead. Return to using `unarchive` when problem resolved.
+# Looks likely to be fixed in 2.1.1
 #
 #- name: checkout the vivo app code from source control
 #  unarchive:
 #    src: "/opt/vivo-{{ vivo_version }}.zip"
 #    dest: /opt
 #    copy: no
+
 - name: unzip the vivo archive
   command: "unzip vivo-{{ vivo_version }}.zip"
   args:
       chdir: "/opt"
+
 - name: Create Vivo build properties
   copy:
     src: "{{ vivo_build_path }}/example.build.properties"
     dest: "{{ vivo_build_path }}/build.properties"
     remote_src: true
+
 - name: Configure Vivo build properties
   lineinfile:
     dest: "/opt/vivo-{{ vivo_version }}/build.properties"
     regexp: "tomcat.home = /usr/local/tomcat"
     line: "tomcat.home = {{ tomcat_home_path }}"
+
 - name: Build Vivo
   command: ant all
   args:
     chdir: "/opt/vivo-{{ vivo_version }}"
+
 - name: Change Vivo Owner and Group
   file:
     path: "{{ vivo_home_path }}"
     recurse: yes
     owner: tomcat
     group: tomcat
+
 - name: Create Vivo runtime properties
   copy:
     src: "{{ vivo_home_path }}/example.runtime.properties"
     dest: "{{ vivo_home_path }}/runtime.properties"
     remote_src: true
   become_user: tomcat
+
 - name: Set SMTP Server
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "smtp.mydomain.edu"
     replace: "{{ smtp_server }}"
+
 - name: Customize Vivo DB Username
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "vitrodbUsername"
     replace: "{{ vivo_db_username }}"
+
 - name: Set Vitro DB Password
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "vitrodbPassword"
     replace: "{{ vivo_db_password }}"
+
 - name: Set Vitro Admin user
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "vivo_root@mydomain.edu"
     replace: "{{ vivo_admin }}"
+
 - name: Set Vivo Domain Name
   replace:
     dest: "{{ vivo_home_path }}/runtime.properties"
     regexp: "mydomain.edu"
     replace: "{{ vivo_domain }}"
+
 - name: Create application setup file
   copy:
     src: "{{ vivo_home_path }}/config/example.applicationSetup.n3"
     dest: "{{ vivo_home_path }}/config/applicationSetup.n3"
     remote_src: true
   become_user: tomcat
+
 - name: Create developer properties file
   copy:
     src: "{{ vivo_home_path }}/config/example.developer.properties"
     dest: "{{ vivo_home_path }}/config/developer.properties"
     remote_src: true
   become_user: tomcat
+
 - name: Start up Tomcat
   command: tomcat start
