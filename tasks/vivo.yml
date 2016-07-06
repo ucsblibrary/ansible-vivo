@@ -1,20 +1,20 @@
 ---
 
-- name: prep vivo download
+- name: Create vivo release download directory
   local_action:
     module: file
     path: downloads/{{ vivo_version }}
     state: directory
   become: no
 
-- name: download vivo
+- name: Download vivo release
   local_action:
     module: get_url
     url: "{{ vivo_download_url }}"
     dest: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
   become: no
 
-- name: get vivo app
+- name: Copy Vivo archive to the installation directory
   copy:
     src: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
     dest: /opt
@@ -31,7 +31,7 @@
 #    dest: /opt
 #    copy: no
 
-- name: unzip the vivo archive
+- name: Unzip the vivo archive
   command: "unzip vivo-{{ vivo_version }}.zip"
   args:
       chdir: "/opt"
