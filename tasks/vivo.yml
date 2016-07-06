@@ -10,7 +10,7 @@
 - name: download vivo
   local_action:
     module: get_url
-    url: https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip
+    url: "{{ vivo_download_url }}"
     dest: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
   become: no
 
