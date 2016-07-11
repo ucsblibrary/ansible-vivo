@@ -1,0 +1,8 @@
+---
+
+vivo_version: rel-1.8.1
+vivo_build_path: "/opt/vivo-{{ vivo_version }}"
+vivo_home_path: /usr/local/vivo/home
+vivo_domain: 'temple.edu'
+vivo_admin: 'vivoAdmin@temple.edu'
+vivo_download_url: "https://github.com/vivo-project/VIVO/releases/download/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"

@@ -1,22 +1,22 @@
 ---
 # Complete Vivo server
 
-- hosts: all
+- hosts: app
   become: yes
   roles:
     - geerlingguy.mysql
 
-- hosts: all
+- hosts: app
   become: yes
   roles:
     - geerlingguy.apache
 
-- hosts: all
+- hosts: app
   become: yes
   roles:
     - williamyeh.oracle-java
 
-- hosts: all
+- hosts: app
   become: yes
   environment:
     - CATALINA_BASE: "/usr/share/tomcat"
@@ -24,7 +24,7 @@
   roles:
     - bertvv.tomcat
 
-- hosts: all
+- hosts: app
   become: yes
   environment:
     - CATALINA_BASE: "/usr/share/tomcat"

@@ -1,5 +1,5 @@
 ---
-app_user: 'tul_vivo'
+
 mysql_packages:
   - mariadb
   - mariadb-server
@@ -19,10 +19,3 @@ mysql_users:
     host: "%"
     password: "{{ vivo_db_password }}"
     priv: "{{ vivo_db_name }}.*:ALL"
-vivo_version: rel-1.8.1
-vivo_build_path: "/opt/vivo-{{ vivo_version }}"
-vivo_home_path: /usr/local/vivo/home
-vivo_domain: 'temple.edu'
-vivo_admin: 'vivoAdmin@temple.edu'
-tomcat_home_path: /usr/share/tomcat
-smtp_server: 'smtp.gmail.com'
