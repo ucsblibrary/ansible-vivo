@@ -37,16 +37,9 @@
       chdir: "/opt"
 
 - name: Create Vivo build properties
-  copy:
-    src: "{{ vivo_build_path }}/example.build.properties"
+  template:
+    src: "templates/build.properties.j2"
     dest: "{{ vivo_build_path }}/build.properties"
-    remote_src: true
-
-- name: Configure Vivo build properties
-  lineinfile:
-    dest: "/opt/vivo-{{ vivo_version }}/build.properties"
-    regexp: "tomcat.home = /usr/local/tomcat"
-    line: "tomcat.home = {{ tomcat_home_path }}"
 
 - name: Build Vivo
   command: ant all
@@ -61,55 +54,27 @@
     group: tomcat
 
 - name: Create Vivo runtime properties
-  copy:
-    src: "{{ vivo_home_path }}/example.runtime.properties"
+  template:
+    src: "templates/runtime.properties.j2"
     dest: "{{ vivo_home_path }}/runtime.properties"
-    remote_src: true
-  become_user: tomcat
-
-- name: Set SMTP Server
-  replace:
-    dest: "{{ vivo_home_path }}/runtime.properties"
-    regexp: "smtp.mydomain.edu"
-    replace: "{{ smtp_server }}"
-
-- name: Customize Vivo DB Username
-  replace:
-    dest: "{{ vivo_home_path }}/runtime.properties"
-    regexp: "vitrodbUsername"
-    replace: "{{ vivo_db_username }}"
-
-- name: Set Vitro DB Password
-  replace:
-    dest: "{{ vivo_home_path }}/runtime.properties"
-    regexp: "vitrodbPassword"
-    replace: "{{ vivo_db_password }}"
-
-- name: Set Vitro Admin user
-  replace:
-    dest: "{{ vivo_home_path }}/runtime.properties"
-    regexp: "vivo_root@mydomain.edu"
-    replace: "{{ vivo_admin }}"
-
-- name: Set Vivo Domain Name
-  replace:
-    dest: "{{ vivo_home_path }}/runtime.properties"
-    regexp: "mydomain.edu"
-    replace: "{{ vivo_domain }}"
+    owner: tomcat
+    group: tomcat
 
 - name: Create application setup file
-  copy:
-    src: "{{ vivo_home_path }}/config/example.applicationSetup.n3"
+  template:
+    src: "templates/applicationSetup.n3.j2"
     dest: "{{ vivo_home_path }}/config/applicationSetup.n3"
-    remote_src: true
-  become_user: tomcat
+    owner: tomcat
+    group: tomcat
 
 - name: Create developer properties file
   copy:
-    src: "{{ vivo_home_path }}/config/example.developer.properties"
+    src: "templates/developer.properties.j2"
     dest: "{{ vivo_home_path }}/config/developer.properties"
-    remote_src: true
-  become_user: tomcat
+    owner: tomcat
+    group: tomcat
 
-- name: Start up Tomcat
-  command: tomcat start
+- name: Restart Tomcat server
+  service:
+    name: tomcat
+    state: restarted
