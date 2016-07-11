@@ -18,9 +18,6 @@
 
 - hosts: app
   become: yes
-  environment:
-    - CATALINA_BASE: "/usr/share/tomcat"
-    - NAME: "tomcat"
   roles:
     - bertvv.tomcat
 
