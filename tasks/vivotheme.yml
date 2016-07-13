@@ -1,0 +1,24 @@
+---
+
+- name: Clone theme to vivo server
+  git:
+    repo: https://github.com/tulibraries/tuvivo_theme.git
+    dest: /opt/vivo-{{ vivo_version }}/themes/tuvivo
+    version: master
+
+- name: Rebuild Vivo
+  command: ant all
+  args:
+    chdir: "/opt/vivo-{{ vivo_version }}"
+
+- name: Change Vivo Owner and Group
+  file:
+    path: "{{ vivo_home_path }}"
+    recurse: yes
+    owner: tomcat
+    group: tomcat
+
+- name: Restart Tomcat server
+  service:
+    name: tomcat
+    state: restarted
