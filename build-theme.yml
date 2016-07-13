@@ -1,0 +1,9 @@
+---
+# Build Vivo theme
+
+- hosts: app
+  become: yes
+  tasks:
+    - user: name={{app_user}} state=present
+      become: yes
+    - include: tasks/vivotheme.yml
