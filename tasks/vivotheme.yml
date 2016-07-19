@@ -4,7 +4,7 @@
   git:
     repo: https://github.com/tulibraries/tuvivo_theme.git
     dest: /opt/vivo-{{ vivo_version }}/themes/tuvivo
-    version: master
+    version: "{{ vivo_theme_branch }}"
 
 - name: Rebuild Vivo
   command: ant all

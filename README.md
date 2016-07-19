@@ -68,13 +68,20 @@ And change the administration password that a secure password.
 
 Provision the tulibraries/tuvivo_theme at `https://github.com/tulibraries/tuvivo_theme`.
 
+To use a particular branch, change the `vivo_theme_branch` in `group_vars/app/vivotheme.yml`
+to the Git branch you wish to use.
+
 - On Vagrant:
 
+```bash
     ansible-playbook -i inventory/local build-theme.yml
+```
 
 - On the development server:
 
+```bash
     ansible-playbook -i inventory/dev build-theme.yml
+```
 
 This will install or update the theme on the vivo server and restart tomcat. Wait 3-4 minutes
 and refresh the browser.
