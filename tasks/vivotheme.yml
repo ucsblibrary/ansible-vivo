@@ -3,13 +3,13 @@
 - name: Clone theme to vivo server
   git:
     repo: https://github.com/tulibraries/tuvivo_theme.git
-    dest: /opt/vivo-{{ vivo_version }}/themes/tuvivo
+    dest: "{{ vivo_build_path }}/webapp/src/main/webapp/themes/tuvivo"
     version: "{{ vivo_theme_branch }}"
 
 - name: Rebuild Vivo
-  command: ant all
+  command: mvn install -s installer/settings.xml
   args:
-    chdir: "/opt/vivo-{{ vivo_version }}"
+    chdir: "{{ vivo_build_path }}"
 
 - name: Change Vivo Owner and Group
   file:
