@@ -1,50 +1,26 @@
 ---
 
-- name: Create vivo release download directory
-  local_action:
-    module: file
-    path: downloads/{{ vivo_version }}
-    state: directory
-  become: no
+- name: Clone Vitro to vivo server
+  git:
+    repo: https://github.com/vivo-project/Vitro.git
+    dest: "{{ vitro_build_path }}"
+    version: "{{ vitro_branch }}"
 
-- name: Download vivo release
-  local_action:
-    module: get_url
-    url: "{{ vivo_download_url }}"
-    dest: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
-  become: no
+- name: Clone Vivo to vivo server
+  git:
+    repo: https://github.com/vivo-project/VIVO.git
+    dest: "{{ vivo_build_path }}"
+    version: "{{ vivo_branch }}"
 
-- name: Copy Vivo archive to the installation directory
-  copy:
-    src: "downloads/{{ vivo_version }}/vivo-{{ vivo_version }}.zip"
-    dest: /opt
-
-#
-# [NOTE:] Encountered problem with `unarchive`. It fails
-# extracting certain doc files. Workaround `command: unzip`
-# instead. Return to using `unarchive` when problem resolved.
-# Looks likely to be fixed in 2.1.1
-#
-#- name: checkout the vivo app code from source control
-#  unarchive:
-#    src: "/opt/vivo-{{ vivo_version }}.zip"
-#    dest: /opt
-#    copy: no
-
-- name: Unzip the vivo archive
-  command: "unzip vivo-{{ vivo_version }}.zip"
-  args:
-      chdir: "/opt"
-
-- name: Create Vivo build properties
+- name: Create Vivo install settings
   template:
-    src: "templates/build.properties.j2"
-    dest: "{{ vivo_build_path }}/build.properties"
+    src: "templates/settings.xml"
+    dest: "{{ vivo_build_path }}/installer/settings.xml"
 
 - name: Build Vivo
-  command: ant all
+  command: mvn install -s installer/settings.xml
   args:
-    chdir: "/opt/vivo-{{ vivo_version }}"
+    chdir: "{{ vivo_build_path }}"
 
 - name: Change Vivo Owner and Group
   file:
@@ -78,3 +54,4 @@
   service:
     name: tomcat
     state: restarted
+

@@ -14,11 +14,6 @@
 - hosts: app
   become: yes
   roles:
-    - williamyeh.oracle-java
-
-- hosts: app
-  become: yes
-  roles:
     - bertvv.tomcat
 
 - hosts: app
@@ -30,6 +25,7 @@
     - user: name={{app_user}} state=present
       become: yes
     - include: tasks/devtools.yml
-    - include: tasks/ant.yml
+    - include: tasks/openjdk.yml
+    - include: tasks/maven.yml
     - include: tasks/apache2.yml
     - include: tasks/vivo.yml
