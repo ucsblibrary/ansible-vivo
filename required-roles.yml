@@ -3,7 +3,5 @@
   path: external_roles/
 - src: geerlingguy.mysql
   path: external_roles/
-- src: williamyeh.oracle-java
-  path: external_roles/
 - src: bertvv.tomcat
   path: external_roles/
