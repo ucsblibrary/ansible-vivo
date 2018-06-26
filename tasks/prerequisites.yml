@@ -1,0 +1,10 @@
+# Devtools
+- name: install prerequisites
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "@Development tools"
+    - ant
+    - java-1.8.0-openjdk
+    - maven

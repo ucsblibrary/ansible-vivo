@@ -10,15 +10,15 @@
   git:
     repo: https://github.com/vivo-project/VIVO.git
     dest: "{{ vivo_build_path }}"
-    version: "{{ vivo_branch }}"
+    version: "{{ vivo_commit }}"
 
 - name: Create Vivo install settings
   template:
-    src: "templates/settings.xml"
-    dest: "{{ vivo_build_path }}/installer/settings.xml"
+    src: install.xml.j2
+    dest: "{{ vivo_build_path }}/installer/install.xml"
 
 - name: Build Vivo
-  command: mvn install -s installer/settings.xml
+  command: mvn install -s installer/install.xml
   args:
     chdir: "{{ vivo_build_path }}"
 
@@ -31,22 +31,15 @@
 
 - name: Create Vivo runtime properties
   template:
-    src: "templates/runtime.properties.j2"
+    src: templates/runtime.properties.j2
     dest: "{{ vivo_home_path }}/runtime.properties"
     owner: tomcat
     group: tomcat
 
 - name: Create application setup file
   template:
-    src: "templates/applicationSetup.n3.j2"
+    src: templates/applicationSetup.n3.j2
     dest: "{{ vivo_home_path }}/config/applicationSetup.n3"
-    owner: tomcat
-    group: tomcat
-
-- name: Create developer properties file
-  copy:
-    src: "templates/developer.properties.j2"
-    dest: "{{ vivo_home_path }}/config/developer.properties"
     owner: tomcat
     group: tomcat
 
@@ -54,4 +47,3 @@
   service:
     name: tomcat
     state: restarted
-

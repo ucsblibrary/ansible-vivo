@@ -1,0 +1,27 @@
+---
+app_name: vivo
+
+#  rel-1.9.3
+vitro_commit: 903cc232b477a7aeb2043623dfd174d0fd7734ab
+vitro_build_path: /opt/Vitro
+
+# rel-1.9.3
+vivo_commit: 37cc07263bfa3010415d386b220a6340874fed32
+vivo_build_path: /opt/VIVO
+vivo_home_path: /usr/local/vivo/home
+
+vivo_admin:
+vivo_domain:
+
+vivo_db_name: vivo_db
+vivo_db_pass:
+vivo_db_type: mysql
+vivo_db_user: vivo_user
+
+vivo_db_defs:
+  mysql:
+    dbtype: MySQL
+    driver: com.mysql.jdbc.Driver
+  postgresql:
+    dbtype: PostgreSQL
+    driver: org.postgresql.Driver

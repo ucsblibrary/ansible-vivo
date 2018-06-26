@@ -1,4 +1,0 @@
----
-
-- name: Install OpenJDK
-  yum: pkg=java-1.8.0-openjdk state=present

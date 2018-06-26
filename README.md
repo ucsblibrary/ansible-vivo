@@ -1,87 +1,40 @@
-# ansible_vivo
+# ansible-vivo
 
-Ansible playbooks for Vivo
+## Server Variables
 
-## Vagrant Server
+- `vivo_domain`: The hostname of the VIVO server.
 
-Install external roles
+- `vivo_admin_email`: The email address of the VIVO admin user.
 
-    ansible-galaxy install -r required-roles.yml
+## Database Variables
 
-Install seed provided by administrator in your root directory
+- `vivo_db_name`: The name of the database that VIVO will use.
+  Defaults to `vivo_db`.
 
-    cp <source>/vault ~/.vault
+- `vivo_db_user`: The name of the user that VIVO will use to connect
+  to the database.  Defaults to `vivo_user`.
 
-Start the Vagrant server
+- `vivo_db_pass`: The password for the `vivo_db_user`.
 
-    vagrant up
+- `vivo_db_type`: The database being used for VIVO.  Defaults to
+  `mysql`, can also be `postgresql`.
 
-## Localhost Server
+## Other Variables
 
-As above, except disploys to vagrant box using the ansible-playbook command.
+- `app_name`: The display name of the application.  Defaults to “vivo”.
 
-Create a new `inventory/local/host` file containing:
+- `tomcat_home_path`: The location of your Tomcat installation.
+  Defaults to `/usr/share/tomcat`.
 
-    localhost ansible_user=vagrant ansible_port=2222 ansible_ssh_private_key_file=.vagrant/machines/default/virtualbox/private_key
+- `vitro_commit`: The Git SHA for the version of Vitro to install.
+  Defaults to the 1.9.3 release, `903cc232b477a7aeb2043623dfd174d0fd7734ab`
 
-Then run the playbook:
+- `vitro_build_path`: The location to clone Vitro to; defaults to `/opt/Vitro`
 
-    ansible-playbook -i inventory/local playbook.yml
+- `vivo_commit`: The Git SHA for the version of Vitro to install.
+  Defaults to the 1.9.3 release, `37cc07263bfa3010415d386b220a6340874fed32`
 
-## Target Server
+- `vivo_build_path`: The location to clone VIVO to; defaults to `/opt/VIVO`
 
-If not already done, install external roles
-
-    ansible-galaxy install -r required-roles.yml
-
-Install seed provided by administrator in your root directory
-
-    cp <source>/vault ~/.vault
-
-Upload your public ssh key to the server, if necessary.
-
-    cat $HOME/.ssh/id_rsa.pub | ssh <username>@<vivo_domain.edu> 'cat >> .ssh/authorized_keys'
-
-Modify inventory/dev/hosts file as appropriate:
-
-
-    vivo_domain.edu ansible_user=<username> ansible_ssh_private_key_file=$HOME/.ssh/id_rsa
-
-Run the ansible playbook to deploy the new site.
-
-    ansible-playbook -i inventory/dev playbook.yml
-
-## Begin Using Vivo
-
-Once the server is up and running open your browser to http://vivo_domain.edu:8080/vivo
-(or http://localhost:8080/vivo for Vagrant).
-
-Login with username and password below, substitute vivo_root@mydomain.edu with the email
-address defined by vivo_admin:
-
-Username: `vivo_root@mydomain.edu`
-Password: `rootPassword`
-
-And change the administration password that a secure password.
-
-# Theme Provisioning 
-
-Provision the tulibraries/tuvivo_theme at `https://github.com/tulibraries/tuvivo_theme`.
-
-To use a particular branch, change the `vivo_theme_branch` in `group_vars/app/vivotheme.yml`
-to the Git branch you wish to use.
-
-- On Vagrant:
-
-```bash
-    ansible-playbook -i inventory/local build-theme.yml
-```
-
-- On the development server:
-
-```bash
-    ansible-playbook -i inventory/dev build-theme.yml
-```
-
-This will install or update the theme on the vivo server and restart tomcat. Wait 3-4 minutes
-and refresh the browser.
+- `vivo_home_path`: The location of the VIVO home directory; defaults
+  to `/usr/local/vivo/home`.

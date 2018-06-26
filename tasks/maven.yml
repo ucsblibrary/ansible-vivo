@@ -1,2 +1,0 @@
-- name: Install Apache maven
-  yum: pkg=maven state=latest

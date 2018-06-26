@@ -1,3 +1,0 @@
-# Devtools
-- name: install 'Development tools' package group
-  yum: name="@Development tools" state=present

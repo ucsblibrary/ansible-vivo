@@ -4,7 +4,7 @@
 #
 # This file is provided as example.runtime.properties.
 #
-# Save a copy of this file as runtime.properties in your Vitro home directory, 
+# Save a copy of this file as runtime.properties in your Vitro home directory,
 # and edit the properties as needed for your installation.
 #
 # -----------------------------------------------------------------------------
@@ -14,44 +14,44 @@
 # BASIC PROPERTIES
 # -----------------------------------------------------------------------------
 
-  # 
-  # This namespace will be used when generating URIs for objects created in the 
-  # editor. In order to serve linked data, the default namespace must be composed 
-  # as follows (optional elements in parentheses): 
+  #
+  # This namespace will be used when generating URIs for objects created in the
+  # editor. In order to serve linked data, the default namespace must be composed
+  # as follows (optional elements in parentheses):
   #
   # scheme + server_name (+ port) (+ servlet_context) + "/individual/"
-  # 
+  #
   # For example, Cornell's default namespace is:
   #
   # http://vivo.cornell.edu/individual/
   #
-Vitro.defaultNamespace = http://vivo.{{ vivo_domain }}/individual/
+Vitro.defaultNamespace = http://{{ vivo_domain }}/individual/
 
   #
-  # The email address of the root user for the VIVO application. The password 
-  # for this user is initially set to "rootPassword", but you will be asked to 
-  # change the password the first time you log in. 
+  # The email address of the root user for the VIVO application. The password
+  # for this user is initially set to "rootPassword", but you will be asked to
+  # change the password the first time you log in.
   #
-rootUser.emailAddress = {{ vivo_admin }}
+rootUser.emailAddress = {{ vivo_admin_email }}
 
   #
-  # The basic parameters for a database connection. Change the end of the 
-  # URL to reflect your database name (if it is not "vitrodb"). Change the username 
+  # The basic parameters for a database connection. Change the end of the
+  # URL to reflect your database name (if it is not "vitrodb"). Change the username
   # and password to match the authorized database user you created.
   #
-VitroConnection.DataSource.url = jdbc:mysql://localhost/{{ vivo_db_name }}
-VitroConnection.DataSource.username = {{ vivo_db_username }}
-VitroConnection.DataSource.password = {{ vivo_db_password }}
+VitroConnection.DataSource.url = jdbc:{{ vivo_db_type }}://localhost/{{ vivo_db_name }}
+VitroConnection.DataSource.username = {{ vivo_db_user }}
+VitroConnection.DataSource.password = {{ vivo_db_pass }}
 
   #
-  # Email parameters which VIVO can use to send mail. If these are left empty, 
+  # Email parameters which VIVO can use to send mail. If these are left empty,
   # the "Contact Us" form will be disabled and users will not be notified of
   # changes to their accounts.
   #
 #email.smtpHost = {{ smtp_server }}
 #email.replyTo = vivoAdmin@{{ vivo_domain }}
 
-  # 
+  #
   # URL of Solr context used in local VIVO search. This will usually consist of:
   #     scheme + server_name + port + vivo_webapp_name + "solr"
   # In the standard installation, the Solr context will be on the same server as VIVO,
@@ -68,11 +68,11 @@ vitro.local.solr.url = http://localhost:8080/vivosolr
 # -----------------------------------------------------------------------------
 
   #
-  # How is a logged-in user associated with a particular Individual? One way is 
+  # How is a logged-in user associated with a particular Individual? One way is
   # for the Individual to have a property whose value is the username of the user.
   # This value should be the URI for that property.
   #
-selfEditing.idMatchingProperty = http://vivo.{{ vivo_domain }}/ns#networkId
+selfEditing.idMatchingProperty = http://{{ vivo_domain }}/ns#networkId
 
 
 # -----------------------------------------------------------------------------
@@ -81,11 +81,11 @@ selfEditing.idMatchingProperty = http://vivo.{{ vivo_domain }}/ns#networkId
 
   #
   # If an external authentication system like Shibboleth or CUWebAuth is to be
-  # used, this property says which HTTP header will contain the user ID from 
-  # the authentication system. If such a system is not to be used, leave this 
-  # commented out. Consult the installation instructions for more details. 
+  # used, this property says which HTTP header will contain the user ID from
+  # the authentication system. If such a system is not to be used, leave this
+  # commented out. Consult the installation instructions for more details.
   #
-#externalAuth.netIdHeaderName = remote_userID 
+#externalAuth.netIdHeaderName = remote_userID
 
 
 # -----------------------------------------------------------------------------
@@ -111,16 +111,16 @@ VitroConnection.DataSource.pool.maxIdle = 10
 # -----------------------------------------------------------------------------
 
   #
-  # Parameters to change in order to use VIVO with a database other than 
+  # Parameters to change in order to use VIVO with a database other than
   # MySQL.
   #
-VitroConnection.DataSource.dbtype = MySQL
-VitroConnection.DataSource.driver = com.mysql.jdbc.Driver
+VitroConnection.DataSource.dbtype = {{ vivo_db_defs[vivo_db_type]['dbtype'] }}
+VitroConnection.DataSource.driver = {{ vivo_db_defs[vivo_db_type]['driver'] }}
 VitroConnection.DataSource.validationQuery = SELECT 1
 
-  # Note: the above parameters allow you to change the relational database that 
-  # is used as the back end for Jena SDB. If you want to use a triple store 
-  # other than SDB, you will need to edit applicationSetup.n3. See the 
+  # Note: the above parameters allow you to change the relational database that
+  # is used as the back end for Jena SDB. If you want to use a triple store
+  # other than SDB, you will need to edit applicationSetup.n3. See the
   # installation instructions for more details.
 
 
@@ -133,19 +133,19 @@ VitroConnection.DataSource.validationQuery = SELECT 1
   # The base URL of the ORNG Shindig server. Usually, this is the same host and port
   # number as VIVO itself, with a context path of "shindigorng".
   #
-#OpenSocial.shindigURL = http://localhost:8080/shindigorng 
+#OpenSocial.shindigURL = http://localhost:8080/shindigorng
 
   #
   # For OpenSocial integration
   # The host name and port number of the service that provides security tokens for VIVO and
   # Shindig to share. For now, the host name must be the actual host, not "localhost" or "127.0.0.1"
-  # The port number must be 8777 
+  # The port number must be 8777
   #
 #OpenSocial.tokenService = myhost.{{ vivo_domain }}:8777
 
   #
   # For OpenSocial integration
-  # The path to the key file that will be used when generating security tokens for VIVO and 
+  # The path to the key file that will be used when generating security tokens for VIVO and
   # shindig to share.
   #
 #OpenSocial.tokenKeyFile = /usr/local/vivo/data/shindig/openssl/securitytokenkey.txt
@@ -162,26 +162,26 @@ VitroConnection.DataSource.validationQuery = SELECT 1
 # -----------------------------------------------------------------------------
 
   #
-  # Show only the most appropriate data values based on the Accept-Language 
+  # Show only the most appropriate data values based on the Accept-Language
   # header supplied by the browser.  Default is false if not set.
   #
 # RDFService.languageFilter = false
 
   #
-  # Force VIVO to use a specific language or Locale instead of those 
-  # specified by the browser. This affects RDF data retrieved from the model, 
+  # Force VIVO to use a specific language or Locale instead of those
+  # specified by the browser. This affects RDF data retrieved from the model,
   # if RDFService.languageFilter is true. This also affects the text of pages
-  # that have been modified to support multiple languages. 
+  # that have been modified to support multiple languages.
   #
 # languages.forceLocale = en_US
 
   #
   # A list of supported languages or Locales that the user may choose to
   # use instead of the one specified by the browser. Selection images must
-  # be available in the i18n/images directory of the theme. This affects 
-  # RDF data retrieved from the model, if RDFService.languageFilter is true.  
-  # This also affects the text of pages that have been modified to support 
-  # multiple languages. 
+  # be available in the i18n/images directory of the theme. This affects
+  # RDF data retrieved from the model, if RDFService.languageFilter is true.
+  # This also affects the text of pages that have been modified to support
+  # multiple languages.
   #
   # This should not be used with languages.forceLocale, which will override it.
   #
@@ -255,36 +255,36 @@ VitroConnection.DataSource.validationQuery = SELECT 1
    # Dsiplay extended details alongside the badge (default = none)
 #resource.altmetric.badge-details=right
 
-  #  
-  # When the following flag is set to enabled, the VIVO home page displays a 
-  # global map highlighting the geographical focus of foaf:person individuals. 
+  #
+  # When the following flag is set to enabled, the VIVO home page displays a
+  # global map highlighting the geographical focus of foaf:person individuals.
   # For information on the maps, refer to this wiki page:
   # https://wiki.duraspace.org/x/c4XVAw
   #
 #homePage.geoFocusMaps=enabled
 
 
-  #  
-  # VIVO supports the simultaneous use of a full foaf:Person profile page view 
-  # and a "quick" page view that emphasizes the individual's webpage presence. 
+  #
+  # VIVO supports the simultaneous use of a full foaf:Person profile page view
+  # and a "quick" page view that emphasizes the individual's webpage presence.
   # Implementing this feature requires an installation to develop a web service
-  # that captures images of web pages or to use an existing service outside of VIVO. 
-  # 
-  # For more information on implementing multiple profile pages, refer to this 
+  # that captures images of web pages or to use an existing service outside of VIVO.
+  #
+  # For more information on implementing multiple profile pages, refer to this
   # wiki page: https://wiki.duraspace.org/x/doXVAw
   #
 #multiViews.profilePageTypes=enabled
 
 
   #
-  # Tell VIVO to generate HTTP headers on its responses to facilitate caching the 
-  # profile pages that it creates. 
+  # Tell VIVO to generate HTTP headers on its responses to facilitate caching the
+  # profile pages that it creates.
   #
-  # For more information, see this wiki page: 
+  # For more information, see this wiki page:
   # https://wiki.duraspace.org/x/5sQQAg
   #
   # Developers will likely want to leave caching disabled, since a change to a
-  # Freemarker template or to a Java class would not cause the page to be 
+  # Freemarker template or to a Java class would not cause the page to be
   # considered stale.
   #
 # http.createCacheHeaders = true
@@ -311,15 +311,15 @@ VitroConnection.DataSource.validationQuery = SELECT 1
   #
 # visualization.topLevelOrg = http://vivo.{{ vivo_domain }}/individual/topLevelOrgURI
 
-  #  
+  #
   # The temporal graph visualization can require extensive machine resources.
   # This can have a particularly noticeable impact on memory usage if
   # - The organization tree is deep,
   # - The number of grants and publications is large.
-  # VIVO 1.3 release mitigates this problem by the way of a caching mechanism & 
+  # VIVO 1.3 release mitigates this problem by the way of a caching mechanism &
   # hence we can safely set this to be enabled by default.
   #
-visualization.temporal = enabled 
+visualization.temporal = enabled
 
   #
   # Types of individual for which we can create proxy editors.
@@ -332,11 +332,11 @@ proxy.eligibleTypeList = http://xmlns.com/foaf/0.1/Person, http://xmlns.com/foaf
   # The format for this property is id, name; id1, name1; id2, name2 etc.
   # For more information, see Service Metadata from this page:
   # https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-Api
-  # 
+  #
 Vitro.reconcile.defaultTypeList = http://vivoweb.org/ontology/core#Role, core:Role; \
     http://vivoweb.org/ontology/core#AcademicDegree, core:Academic Degree; \
     http://purl.org/NET/c4dm/event.owl#Event, event:Event; \
     http://vivoweb.org/ontology/core#Location, core:Location; \
     http://xmlns.com/foaf/0.1/Organization, foaf:Organization; \
     http://xmlns.com/foaf/0.1/Person, foaf:Person; \
-    http://purl.obolibrary.org/obo/IAO_0000030, obo:IAO_0000030 
+    http://purl.obolibrary.org/obo/IAO_0000030, obo:IAO_0000030

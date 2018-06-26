@@ -1,7 +1,0 @@
----
-- src: geerlingguy.apache
-  path: external_roles/
-- src: geerlingguy.mysql
-  path: external_roles/
-- src: bertvv.tomcat
-  path: external_roles/
